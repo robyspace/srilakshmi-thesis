@@ -1,0 +1,6 @@
+{
+  "epsilon": 1.0,
+  "delta": 1e-05,
+  "noise_type": "gaussian",
+  "noise_scale": 4.844805262605389
+}

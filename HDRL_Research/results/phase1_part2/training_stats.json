@@ -1,0 +1,26 @@
+{
+  "AWS": {
+    "avg_episode_reward": 41.96698852220221,
+    "avg_cost": 12.336190418665117,
+    "avg_energy": 243.3943119540713,
+    "avg_completed_tasks": 100.0,
+    "avg_failed_tasks": 0.0,
+    "total_episodes": 50
+  },
+  "Azure": {
+    "avg_episode_reward": 41.198271876846746,
+    "avg_cost": 12.652252929360495,
+    "avg_energy": 265.98472915475617,
+    "avg_completed_tasks": 100.0,
+    "avg_failed_tasks": 0.0,
+    "total_episodes": 50
+  },
+  "GCP": {
+    "avg_episode_reward": 42.071026346078916,
+    "avg_cost": 12.93533310087578,
+    "avg_energy": 235.23361702295549,
+    "avg_completed_tasks": 100.0,
+    "avg_failed_tasks": 0.0,
+    "total_episodes": 50
+  }
+}
