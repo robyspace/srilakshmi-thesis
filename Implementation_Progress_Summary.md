@@ -1,10 +1,10 @@
-# Implementation Progress and Future Work
+Implementation Progress and Future Work
 
-## Executive Summary
+Executive Summary
 
 This document provides a comprehensive overview of the implementation progress for the privacy-preserving hierarchical deep reinforcement learning framework for distributed cloud task scheduling. The project follows a three-phase implementation plan spanning data preparation, local agent training, and hierarchical coordination with AWS deployment. As of November 2025, Phases 1 and 2 have been completed with documented results, while Phase 3 is planned for execution.
 
-## Phase 1: Data Preparation and Feature Engineering (Completed)
+Phase 1: Data Preparation and Feature Engineering (Completed)
 
 The foundational data preparation phase successfully processed the Google Cloud Trace dataset to create a comprehensive training corpus. The preprocessing pipeline extracted 405,894 real-world task traces representing authentic cloud workload patterns from Google's production infrastructure. Feature engineering transformed raw trace data into 30 structured attributes capturing computational requirements, temporal characteristics, resource intensity, priority levels, and dependency relationships.
 
@@ -12,7 +12,7 @@ Dataset partitioning followed a 70-15-15 split, yielding 324,715 training tasks,
 
 Key engineered features include CPU request (cores), memory request (GB), data transfer size (GB), task priority (0-10 scale), estimated duration (seconds), resource intensity score, task type classification (batch, interactive, streaming), dependency flags, and utilization coefficients. The processed datasets were serialized to CSV format with accompanying scaler objects stored in pickle format, establishing the empirical foundation for training privacy-preserving scheduling agents on real-world workload characteristics.
 
-## Phase 2: Local PPO Agent Training (Completed with Critical Fixes)
+Phase 2: Local PPO Agent Training (Completed with Critical Fixes)
 
 The second phase implemented and trained Proximal Policy Optimization agents for regional task scheduling, with significant architectural refinement during development. The initial implementation revealed five critical issues preventing effective learning: immediate resource allocation and release eliminating state dynamics, agent actions being ignored by the environment, static workload reuse producing deterministic outcomes, reward functions depending solely on task properties rather than state, and differential privacy noise not being applied during action selection.
 
@@ -24,14 +24,14 @@ The PPO Actor-Critic architecture comprises 20-dimensional input states, two sha
 
 Two independent agents were trained representing AWS us-east-1 (On-Demand pricing, $0.05/CPU-hour, 10ms latency) and eu-west-1 (Spot pricing, $0.015/CPU-hour, 90ms latency), each processing 2,500 tasks per episode over 50 episodes totaling 125,000 scheduling decisions per agent. Expected training outcomes include reward progression from 28-30 to 48-52 across episodes and cost reduction from $18 to $11-13, demonstrating learned optimization strategies. Trained model weights are saved at 10-episode intervals with final artifacts in the ppo_agents_v3 directory alongside training history metrics.
 
-## Phase 3: Global Coordinator and AWS Deployment (Planned)
+Phase 3: Global Coordinator and AWS Deployment (Partially Completed)
 
 The third phase encompasses hierarchical coordination implementation and production deployment to AWS multi-region infrastructure. The Global Coordinator will employ a deep neural network for high-level task allocation across regions based on encrypted state aggregations received via secure multi-party computation protocols. The coordinator will process aggregated regional states including utilization levels, queue depths, and cost trends to make strategic routing decisions balancing global objectives.
 
 Secure multi-party computation integration will leverage homomorphic encryption enabling the coordinator to compute aggregate statistics without accessing plaintext data, preserving privacy of individual region workload patterns. The SMPC protocol will support encrypted summation and averaging with decryption occurring only after aggregation.
 
-AWS infrastructure deployment will establish two accounts spanning us-east-1 and eu-west-1 connected via VPC peering. Account 1 will host the Global Coordinator (t3.xlarge EC2) and Local Agent 1 (t3.medium) using On-Demand pricing. Account 2 will deploy Local Agent 2 (t3.large Spot instance) providing cost optimization. Storage infrastructure comprises S3 buckets for model artifacts, DynamoDB tables for distributed state management, and CloudWatch dashboards for real-time monitoring of rewards, costs, privacy budget, and utilization.
+[AWS infrastructure deployment will establish two accounts spanning us-east-1 and eu-west-1 connected via VPC peering. Account 1 will host the Global Coordinator (t3.xlarge EC2) and Local Agent 1 (t3.medium) using On-Demand pricing. Account 2 will deploy Local Agent 2 (t3.large Spot instance) providing cost optimization. Storage infrastructure comprises S3 buckets for model artifacts, DynamoDB tables for distributed state management, and CloudWatch dashboards for real-time monitoring of rewards, costs, privacy budget, and utilization.
 
-Experimental evaluation will implement four baseline algorithms: Deep Q-Network (DQN), Asynchronous Advantage Actor-Critic (A3C), Independent A3C (IA3C), and static heuristics (Round-Robin, Least-Loaded). Performance metrics will measure makespan, average resource utilization, total cost, energy consumption, average waiting time, and task failure rates. Privacy-utility tradeoff analysis will evaluate performance across ε values of 0.1, 0.5, 1.0, 5.0, and 10.0, measuring reward degradation relative to non-private baseline. Scalability experiments will test workloads of 1,000, 5,000, and 10,000 tasks, measuring convergence time, inference latency, and computational requirements.
+Performance metrics will measure makespan, average resource utilization, total cost, energy consumption, average waiting time, and task failure rates. Privacy-utility tradeoff analysis will evaluate performance across ε values of 0.1, 0.5, 1.0, 5.0, and 10.0, measuring reward degradation relative to non-private baseline. Scalability experiments will test workloads of 1,000, 5,000, and 10,000 tasks, measuring convergence time, inference latency, and computational requirements.] - yet to complete
 
-The evaluation phase will produce comprehensive results including learning curve visualizations comparing hierarchical HDRL against baselines, cost-performance Pareto frontiers, privacy-utility tradeoff curves, and statistical significance testing via t-tests and ANOVA. These results will form the empirical validation demonstrating the practical viability of privacy-preserving hierarchical deep reinforcement learning for distributed cloud task scheduling under realistic multi-region deployment constraints.
+
